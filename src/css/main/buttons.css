@@ -1,0 +1,33 @@
+/* buttons styles */
+.buttons {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.buttons button {
+  flex: 1; /* Кожна кнопка займає половину доступної ширини */
+  padding: 15px 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  background-color: #C1272D; /* червоний Макдональдс */
+}
+
+.buttons button:hover {
+  background-color: #A51B23; /* темніший відтінок при наведенні */
+  transform: translateY(-2px);
+}
+
+/* Адаптивність для мобільних */
+@media (max-width: 768px) {
+  .buttons {
+    flex-direction: column;
+  }
+
+  .buttons button {
+    width: 100%;
+  }
+}

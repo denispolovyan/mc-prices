@@ -1,0 +1,77 @@
+/* reset.css */
+
+/* Скидання марджинів і паддінгів */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Базові стилі для body */
+body {
+  line-height: 1.5;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background-color: #fff;
+  color: #000;
+}
+
+/* Заголовки */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  line-height: 1.2;
+}
+
+/* Списки */
+ul, ol {
+  list-style: none;
+}
+
+/* Посилання */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Зображення */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Формові елементи */
+button, input, select, textarea {
+  font: inherit;
+  background: none;
+  border: none;
+  outline: none;
+}
+
+/* Таблиці */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Всі елементи посередині, якщо потрібно */
+html, body, #app {
+  width: 100%;
+  height: 100%;
+}
+
+/* Скроллбар (опційно, для єдиного стилю) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}

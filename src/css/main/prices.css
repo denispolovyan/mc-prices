@@ -1,0 +1,104 @@
+/* menu-section styles */
+
+/* Контейнер категорій */
+.category-item {
+  margin-bottom: 10px;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #DA291C;
+}
+
+/* Заголовок категорії */
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  cursor: pointer;
+  background-color: #C1272D;
+  color: #FFC72C;
+  font-weight: bold;
+  font-size: 1.2rem;
+  transition: background-color 0.3s ease;
+}
+
+.category-header:hover {
+  background-color: #A51B23;
+}
+
+/* Контейнер позицій у категорії */
+.menu-items {
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Окремий елемент меню */
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #FFF4E1;
+  padding: 10px 12px;
+  border-radius: 6px;
+  transition: transform 0.2s ease;
+}
+
+.menu-item:hover {
+  transform: translateY(-2px);
+  background-color: #FFEDD3;
+}
+
+/* Текст та назва позиції */
+.menu-text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-name {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #C1272D;
+  margin-bottom: 5px;
+}
+
+/* Ряд із цінами */
+.price-row {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.item-price {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.price-icon {
+  width: 28px;
+  height: 28px;
+}
+
+/* Адаптивність для мобільних */
+@media (max-width: 768px) {
+  .menu-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .price-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .price-icon {
+    width: 24px;
+    height: 24px;
+  }
+}

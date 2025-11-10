@@ -3,7 +3,6 @@
 /* Контейнер категорій */
 .category-item {
   margin-bottom: 10px;
-  border-radius: 6px;
   overflow: hidden;
   background-color: #DA291C;
 }

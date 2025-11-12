@@ -1,15 +1,12 @@
 /* ------------------ ОСНОВНІ СТИЛІ ------------------ */
 /* Контейнер категорій */
 .category-item {
-  /* margin-bottom: 10px; */
   overflow: hidden;
   background-color: #C1272D;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease;
-}
-
-.category-item:hover {
-  transform: translateY(-2px);
+  font-size: 16px;
+  font-weight: 700;
 }
 
 /* Заголовок категорії */
@@ -21,8 +18,7 @@
   cursor: pointer;
   color: #FFC72C;
   font-weight: bold;
-  font-size: 1.2rem;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.7s ease;
   max-width: 1230px;
   margin: 0px auto;
 }
@@ -33,8 +29,8 @@
 
 /* Стрілка відкриття */
 .arrow {
+  margin-right: 12px;
   transition: transform 0.3s ease;
-  font-size: 1.1rem;
 }
 
 .arrow.open {
@@ -80,10 +76,8 @@
 }
 
 .item-name {
-  font-size: 1.2rem;
-  font-weight: 700;
   color: #C1272D;
-  margin-bottom: 5px;
+  width: 260px;
 }
 
 /* Ряд із цінами */
@@ -91,7 +85,6 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  font-size: 1rem;
   font-weight: 600;
   color: #333;
 }
@@ -105,6 +98,25 @@
 .price-icon {
   width: 28px;
   height: 28px;
+}
+
+/* Кнопка додавання */
+.add-btn{
+  background: #C1272D;
+  color: #fff;
+  border: none;
+  padding: 8px 22px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  font-weight: 900px;
+  font-size: 30px;
+  display: flex;
+  /* align-items: center; */
+}
+
+.add-btn:hover {
+  background: #078e31;
 }
 
 /* ------------------ АНІМАЦІЇ ------------------ */
@@ -167,7 +179,7 @@
 /* ------------------ АДАПТИВ ------------------ */
 @media (max-width: 768px) {
   .menu-item {
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: flex-start;
   }
 

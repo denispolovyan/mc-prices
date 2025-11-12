@@ -42,14 +42,27 @@
   transform: scale(1.1);
 }
 
-/* Адаптивність */
-@media (max-width: 768px) {
-  .header__logo {
-    font-size: 1.8rem;
-  }
+/* Обгортка для анімації */
+.header__basket-wrapper {
+  width: 48px;
+  height: 48px;
+  perspective: 600px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s ease;
+}
 
-  .header__image {
-    width: 45px;
-    height: 45px;
-  }
+/* Саме зображення */
+.header__image {
+  width: 70px;
+  height: 70px;
+  transition: transform 0.6s ease;
+  transform-style: preserve-3d;
+}
+
+/* Ефект перевороту при false */
+.header__basket-wrapper.flipped .header__image {
+  transform: rotateY(180deg);
 }

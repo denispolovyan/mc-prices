@@ -1,3 +1,4 @@
+/* Основний блок хедера */
 .header {
   width: 100%;
   background-color: #DA291C; /* Фірмовий червоний фон */
@@ -7,18 +8,48 @@
   text-align: center;
 }
 
+/* Контейнер з логотипом і картинкою */
 .header__container {
-  max-width: 1230px; /* Максимальна ширина контейнера */
+  max-width: 1230px;
   width: 100%;
-  padding: 20px 15px; /* Падінг по боках */
+  padding: 20px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* логотип зліва, картинка справа */
 }
 
+/* Текстовий логотип */
 .header__logo {
-  color: #FFC72C; /* Жовтий фірмовий колір */
-  font-size: 2.5rem; /* Великий розмір */
+  color: #FFC72C;
+  font-size: 2.5rem;
   font-weight: 800;
-  text-transform: uppercase; /* Капслок */
+  text-transform: uppercase;
   letter-spacing: 1px;
   font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Легка тінь для тексту */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Картинка праворуч */
+.header__image {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.header__image:hover {
+  transform: scale(1.1);
+}
+
+/* Адаптивність */
+@media (max-width: 768px) {
+  .header__logo {
+    font-size: 1.8rem;
+  }
+
+  .header__image {
+    width: 45px;
+    height: 45px;
+  }
 }

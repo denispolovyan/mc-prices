@@ -3,7 +3,6 @@
 .category-item {
   overflow: hidden;
   background-color: #C1272D;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease;
   font-size: 16px;
   font-weight: 700;
@@ -84,7 +83,7 @@
 .price-row {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 5px 7px;
   font-weight: 600;
   color: #333;
 }
@@ -100,24 +99,44 @@
   height: 28px;
 }
 
-/* Кнопка додавання */
-.add-btn{
-  background: #C1272D;
-  color: #fff;
-  border: none;
-  padding: 8px 22px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  font-weight: 900px;
-  font-size: 30px;
+/* Кнопка додавання та віднімання */
+.menu-button {
   display: flex;
-  /* align-items: center; */
+  flex-direction: column; /* розташовуємо кнопки вертикально */
+  justify-content: center; /* вирівнюємо по центру вертикально */
+  align-items: center; /* по горизонталі по центру */
+  gap: 6px; /* відстань між кнопками */
+}
+
+.add-btn,
+.remove-btn {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  background-color: #ff6600;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.add-btn {
+  background-color: #03831d;
+}
+
+.remove-btn {
+  background-color: #c40505;
 }
 
 .add-btn:hover {
-  background: #078e31;
+  background-color: #03a724;
 }
+
+.remove-btn:hover {
+  background-color: #d50505;
+}
+
 
 /* ------------------ АНІМАЦІЇ ------------------ */
 
@@ -164,6 +183,15 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Кількість в кошику */
+.item-in-cart {
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ff6600; /* можна змінити під дизайн */
+}
+
 
 /* Ключові кадри */
 @keyframes fadeIn {

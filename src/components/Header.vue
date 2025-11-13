@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="header__container">
-      <h1 class="header__logo">Мак Prices</h1>
+      <h1 class="header__logo" @click="closeBasket">Мак Prices</h1>
 
       <!-- Кошик з анімацією -->
       <div 
@@ -34,6 +34,11 @@ let basketState = ref(false);
 function handleBasket(){
   basketState.value = !basketState.value;
   emit("handleBasketEmit", basketState.value)
+}
+
+//close basket
+function closeBasket(){
+  if(basketState.value) handleBasket();
 }
 </script>
 

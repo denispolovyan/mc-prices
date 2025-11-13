@@ -1,5 +1,5 @@
 // DATA URL
-export const BASE_URL = 'https://denispolovyan.github.io/delievery_parser_endpoint/data/result/categorized_result.json';
+export const BASE_URL = 'https://denispolovyan.github.io/delievery_parser_endpoint/data/result/newest_result.json';
 
 // NOTYF
 import { Notyf } from 'notyf';

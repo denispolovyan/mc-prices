@@ -1,17 +1,48 @@
+/* =============================
+   ОСНОВНИЙ БЛОК КОШИКА
+   ============================= */
 .basket-section {
   flex: 1;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  animation: fadeIn 0.3s ease forwards;
+  background: #343333;
   font-size: 16px;
   font-weight: 700;
   max-width: 1230px;
-  margin: 0px auto;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  animation: fadeIn 0.3s ease forwards;
 }
 
+/* =============================
+   ПІДСУМОК ЕКОНОМІЇ
+   ============================= */
+.basket-summary {
+  background-color: #DA291C;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  text-align: center;
+  padding: 7px 10px;
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.4s ease forwards;
+}
+
+.saving {
+  font-weight: 800;
+  font-size: 1.3rem;
+  padding: 0 5px;
+}
+
+.saving.glovo { color: #f1c40f; }
+.saving.bolt { color: #2ecc71; }
+.saving.mc { color: #f79b11; }
+
+
+/* =============================
+   СПИСОК ПОЗИЦІЙ
+   ============================= */
 .basket-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
 
 .basket-item {
@@ -20,6 +51,7 @@
   align-items: center;
   background-color: #fffaf3;
   padding: 12px 15px;
+  border-bottom: 1px solid #DA291C;
   transition: transform 0.2s ease;
 }
 
@@ -27,15 +59,21 @@
   transform: translateY(-2px);
 }
 
+/* ІНФО ПРО ТОВАР */
 .basket-info {
   display: flex;
   flex-direction: column;
-  justify-items: start;
   gap: 5px;
 }
 
 .basket-name {
   color: #C1272D;
+}
+
+.basket-prices {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
 
 .basket-prices p {
@@ -45,6 +83,12 @@
   font-weight: 800;
 }
 
+.price-icon {
+  width: 24px;
+  height: 24px;
+}
+
+/* РІЗНИЦЯ У ЦІНІ */
 .diff {
   font-size: 0.9rem;
   color: #007a00;
@@ -54,39 +98,104 @@
   color: #DA291C;
 }
 
-.price-icon {
-  width: 24px;
-  height: 24px;
+/* =============================
+   КНОПКИ КІЛЬКОСТІ
+   ============================= */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.remove-btn {
-  background: #C1272D;
-  color: #fff;
+.quantity-controls button {
+  background: #da291c;
+  color: white;
   border: none;
-  padding: 8px 22px;
-  border-radius: 5px;
+  padding: 4px 10px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background 0.3s ease;
-  font-weight: 900px;
-  font-size: 30px;
+  font-size: 18px;
+  transition: background 0.2s ease;
 }
 
-.remove-btn:hover {
+.quantity-controls button:hover {
   background: #e37616;
 }
 
+.quantity-controls span {
+  font-weight: bold;
+  font-size: 18px;
+  color: #222;
+}
+
+/* КНОПКА ВИДАЛЕННЯ */
+.remove-btn {
+  background: #7a1a1a;
+  font-size: 16px;
+  padding: 5px 10px;
+}
+
+/* =============================
+   КНОПКА ОЧИСТКИ ВСЬОГО
+   ============================= */
+.clear-all {
+  text-align: center;
+  margin: 15px 0;
+}
+
+.clear-btn {
+  background: #C1272D;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border-radius: 4px;
+}
+
+.clear-btn:hover {
+  background: #e37616;
+}
+
+/* =============================
+   ПОРОЖНІЙ КОШИК
+   ============================= */
 .basket-empty {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.basket-empty img{
-  width: 30%; 
-  margin-top: 30px; 
+.basket-empty img {
+  width: 30%;
+  margin-top: 30px;
 }
 
+/* =============================
+   Очистити КОШИК
+   ============================= */
+
+.basket-clear{
+  background-color: #DA291C;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-align: center;
+  padding: 20px 10px;
+  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.4s ease forwards;
+}
+
+/* =============================
+   АНІМАЦІЇ
+   ============================= */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }

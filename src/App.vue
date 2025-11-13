@@ -1,13 +1,13 @@
 <template>
     <div class="app-container">
-        <Header @handleBasketEmit="handleBasket"/>
-        <Main :basketStateProp="basketState"/>
+        <Header @handleBasketEmit="handleBasket" />
+        <Main :basketStateProp="basketState" />
     </div>
 </template>
 
 <script setup>
 // base
-import { watch, ref } from 'vue';
+import { ref } from 'vue';
 
 // components
 import Header from './components/Header.vue'
@@ -18,7 +18,7 @@ const basketState = ref(false);
 
 // functions
 // handle basket
-function handleBasket(state){
+function handleBasket(state) {
     basketState.value = state;
 }
 </script>
@@ -28,6 +28,6 @@ function handleBasket(state){
 
 .app-container {
     height: 100%;
-    background: #343333;
+    background-color: #C1272D;
 }
 </style>

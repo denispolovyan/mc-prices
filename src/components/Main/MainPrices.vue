@@ -16,23 +16,33 @@
 
                   <div class="price-row">
                     <p class="item-price">
+                      <img src="@/images/mcdonalds.avif" class="price-icon"> {{ item.price_original }} ₴
+                    </p>
+
+                    <p v-if="item.price_glovo !== null" class="item-price">
                       <img src="@/images/glovo.png" class="price-icon"> {{ item.price_glovo }} ₴
                     </p>
 
-                    <p class="item-price">
+                    <p v-if="item.price_bolt !== null" class="item-price">
                       <img src="@/images/bolt.png" class="price-icon"> {{ item.price_bolt }} ₴
                     </p>
 
-                    <p class="item-price">
-                      <img src="@/images/mcdonalds.avif" class="price-icon"> {{ item.price_original }} ₴
+                    <!-- кількість в кошику -->
+                    <p v-if="getItemQuantity(item) > 0" class="item-in-cart">
+                      Додано в кошик: {{ getItemQuantity(item) }}
                     </p>
                   </div>
+
                 </div>
 
-                <!-- кнопка + -->
+                <!-- кнопка + - -->
                 <div class="menu-button">
+                  <!-- кнопка + -->
                   <button class="add-btn" @click.stop="addItem(item)">+</button>
+                  <!-- кнопка - -->
+                  <button v-if="getItemQuantity(item) > 0" class="remove-btn" @click.stop="removeItem(item)">-</button>
                 </div>
+
               </div>
             </transition-group>
           </div>
@@ -42,8 +52,6 @@
   </div>
 </template>
 
-
-
 <script setup>
 //base
 import { ref, watch } from 'vue'
@@ -52,7 +60,7 @@ import { ref, watch } from 'vue'
 import { notyf } from "@/constants.js";
 
 // emits
-const emit = defineEmits(['add-to-cart'])
+const emit = defineEmits(['incrementBasketQuantityEmit', 'decrementBasketQuantityEmit'])
 
 // props
 const props = defineProps({
@@ -63,12 +71,17 @@ const props = defineProps({
   menuDataProp: {
     type: Object,
     required: true
+  },
+  cartItemsProp: {
+    type: Object,
+    required: true
   }
 });
 
 // consts
 const categories = ref(props.categoriesProp);
 const menuData = ref(props.menuDataProp);
+const cartItems = ref(props.cartItemsProp)
 const openCategory = ref(null)
 
 // functions
@@ -84,14 +97,26 @@ function filteredItems(categoryName) {
 
 // add to cart emit
 // add item to cart
-function addItem(item) { 
-  emit('add-to-cart', item);
+function addItem(item) {
+  emit('incrementBasketQuantityEmit', item);
 
   notyf.open({
-      type: 'add',
-      message: `${item.name} додано`,
+    type: 'add',
+    message: `${item.name} додано`,
   });
 }
+
+// remoce item from cart
+function removeItem(item) {
+  emit("decrementBasketQuantityEmit", item)
+}
+
+// gey item quantity at cart
+function getItemQuantity(item) {
+  const cartItem = cartItems.value.find(ci => ci.name === item.name);
+  return cartItem ? cartItem.quantity : 0;
+}
+
 
 // watch
 watch(
@@ -106,6 +131,15 @@ watch(
   () => props.menuDataProp,
   (newVal) => {
     menuData.value = newVal;
+  },
+  { immediate: true }
+);
+
+watch(
+  () => props.cartItemsProp,
+  (newVal) => {
+    cartItems.value = newVal;
+    console.log(cartItems.value);
   },
   { immediate: true }
 );

@@ -1,38 +1,21 @@
 <template>
   <div class="menu">
     <transition-group name="fade" tag="div">
-      <div
-        v-for="category in categories"
-        :key="category"
-        class="menu__category"
-      >
+      <div v-for="category in categories" :key="category" class="menu__category">
         <!-- Заголовок категорії -->
-        <div
-          class="menu__category-header"
-          @click="toggleCategory(category)"
-        >
+        <div class="menu__category-header" @click="toggleCategory(category)">
           <h2 class="menu__category-title">{{ category }}</h2>
 
-          <span
-            class="menu__category-arrow"
-            :class="{ 'menu__category-arrow--open': openCategory === category }"
-          >
+          <span class="menu__category-arrow" :class="{ 'menu__category-arrow--open': openCategory === category }">
             ▼
           </span>
         </div>
 
         <!-- Позиції категорії -->
         <transition name="expand">
-          <div
-            v-if="openCategory === category"
-            class="menu__items"
-          >
+          <div v-if="openCategory === category" class="menu__items">
             <transition-group name="fade-up" tag="div">
-              <div
-                v-for="item in filteredItems(category)"
-                :key="item.id"
-                class="menu__item"
-              >
+              <div v-for="item in filteredItems(category)" :key="item.id" class="menu__item">
                 <div class="menu__item-info">
                   <p class="menu__item-name">{{ item.name }}</p>
 
@@ -44,49 +27,39 @@
                         {{ item.price_original }} ₴
                       </p>
 
-                      <p
-                        v-if="item.price_glovo !== null"
-                        class="menu__price"
-                      >
+                      <p v-if="item.price_glovo !== null" class="menu__price">
                         <img src="@/images/glovo.png" class="menu__price-icon" />
                         {{ item.price_glovo }} ₴
                       </p>
 
-                      <p
-                        v-if="item.price_bolt !== null"
-                        class="menu__price"
-                      >
+                      <p v-if="item.price_bolt !== null" class="menu__price">
                         <img src="@/images/bolt.png" class="menu__price-icon" />
                         {{ item.price_bolt }} ₴
                       </p>
                     </div>
 
                     <!-- кількість у кошику -->
-                    <p
-                      v-if="getItemQuantity(item) > 0"
-                      class="menu__item-in-cart"
-                    >
+                    <p v-if="getItemQuantity(item) > 0" class="menu__item-in-cart">
                       Додано в кошик: {{ getItemQuantity(item) }}
                     </p>
                   </div>
                 </div>
 
-                <!-- кнопки + і - -->
                 <div class="menu__buttons">
-                  <button
-                    class="menu__btn menu__btn--add"
-                    @click.stop="addItem(item)"
-                  >
-                    +
-                  </button>
-
-                  <button
-                    v-if="getItemQuantity(item) > 0"
-                    class="menu__btn menu__btn--remove"
-                    @click.stop="removeItem(item)"
-                  >
-                    -
-                  </button>
+                  <!-- картинка справа -->
+                  <div>
+                    <img v-if="item.urlToImg" :src="item.urlToImg" class="menu__item-right-img" />
+                  </div>
+                  <!-- кнопки + і - та картинка справа -->
+                  <div class="buttons__container">
+                    <button v-if="getItemQuantity(item) > 0" class="menu__btn menu__btn--remove"
+                      @click.stop="removeItem(item)">
+                      -
+                    </button>
+                    <button class="menu__btn menu__btn--add" @click.stop="addItem(item)">
+                      +
+                    </button>
+                  </div>
                 </div>
               </div>
             </transition-group>
@@ -96,6 +69,7 @@
     </transition-group>
   </div>
 </template>
+
 
 
 <script setup>

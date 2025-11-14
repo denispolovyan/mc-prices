@@ -55,6 +55,7 @@
 
 .basket__item {
   display: flex;
+  gap: 15px;
   justify-content: space-between;
   background: #fffaf3;
   padding: 12px 15px;
@@ -68,7 +69,7 @@
 .basket__info {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 8px;
 }
 
 .basket__name {
@@ -79,6 +80,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  /* width:  */
 }
 
 .basket__price {

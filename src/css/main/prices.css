@@ -1,15 +1,18 @@
-/* ------------------ ОСНОВНІ СТИЛІ ------------------ */
-/* Контейнер категорій */
-.category-item {
-  overflow: hidden;
-  background-color: #C1272D;
-  transition: transform 0.3s ease;
-  font-size: 16px;
-  font-weight: 700;
+/* ------------------ КОНТЕЙНЕР ------------------ */
+
+.menu {
+  width: 100%;
 }
 
-/* Заголовок категорії */
-.category-header {
+/* ------------------ КАТЕГОРІЇ ------------------ */
+
+.menu__category {
+  background-color: #C1272D;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.menu__category-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,25 +22,29 @@
   font-weight: bold;
   transition: background-color 0.7s ease;
   max-width: 1230px;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
-.category-header:hover {
+.menu__category-header:hover {
   background-color: #A51B23;
 }
 
-/* Стрілка відкриття */
-.arrow {
+.menu__category-title {
+  margin: 0;
+}
+
+.menu__category-arrow {
   margin-right: 12px;
   transition: transform 0.3s ease;
 }
 
-.arrow.open {
+.menu__category-arrow--open {
   transform: rotate(180deg);
 }
 
-/* Контейнер позицій у категорії */
-.menu-items {
+/* ------------------ ПОЗИЦІЇ ------------------ */
+
+.menu__items {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -45,102 +52,113 @@
   border-top: 2px solid #FFC72C;
   animation: fadeIn 0.4s ease forwards;
   max-width: 1230px;
-  margin: 0px auto;
+  margin: 0 auto;
 }
 
-/* Окремий елемент меню */
-.menu-item {
+.menu__item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #FFF4E1;
   padding: 10px 15px;
+  background-color: #FFF4E1;
   border-radius: 6px;
   transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.3s ease;
   opacity: 0;
   animation: fadeUp 0.4s ease forwards;
 }
 
-.menu-item:hover {
+.menu__item:hover {
   transform: translateY(-3px) scale(1.01);
   background-color: #FFEDD3;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Текст та назва позиції */
-.menu-text {
+/* ------------------ ТЕКСТ ------------------ */
+
+.menu__item-info {
   display: flex;
   flex-direction: column;
   gap: 8px;
 }
 
-.item-name {
+.menu__item-name {
   color: #C1272D;
   width: 260px;
+  font-weight: 800;
 }
 
-/* Ряд із цінами */
-.price-row {
+/* ------------------ ЦІНИ ------------------ */
+
+.menu__price-group {
   display: flex;
-  align-items: center;
-  gap: 5px 7px;
+  flex-direction: column;
+  gap: 10px;
   font-weight: 600;
   color: #333;
 }
 
-.item-price {
+.menu__prices {
+  display: flex;
+  gap: 10px;
+}
+
+.menu__price {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.price-icon {
+.menu__price-icon {
   width: 28px;
   height: 28px;
 }
 
-/* Кнопка додавання та віднімання */
-.menu-button {
+/* ------------------ КНОПКИ ------------------ */
+
+.menu__buttons {
   display: flex;
-  flex-direction: column; /* розташовуємо кнопки вертикально */
-  justify-content: center; /* вирівнюємо по центру вертикально */
-  align-items: center; /* по горизонталі по центру */
-  gap: 6px; /* відстань між кнопками */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
 }
 
-.add-btn,
-.remove-btn {
+.menu__btn {
   width: 40px;
   height: 40px;
+  font-weight: bold;
   border: none;
   border-radius: 4px;
-  background-color: #ff6600;
   color: #fff;
-  font-weight: bold;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.add-btn {
+.menu__btn--add {
   background-color: #03831d;
 }
 
-.remove-btn {
-  background-color: #c40505;
-}
-
-.add-btn:hover {
+.menu__btn--add:hover {
   background-color: #03a724;
 }
 
-.remove-btn:hover {
+.menu__btn--remove {
+  background-color: #c40505;
+}
+
+.menu__btn--remove:hover {
   background-color: #d50505;
 }
 
+.menu__item-in-cart {
+  margin-top: 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ff6600;
+}
 
 /* ------------------ АНІМАЦІЇ ------------------ */
 
-/* Плавне відкриття/закриття категорії */
 .expand-enter-active,
 .expand-leave-active {
   transition: all 0.35s ease;
@@ -161,63 +179,62 @@
   transform: scaleY(1);
 }
 
-/* Fade для списку */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.4s ease;
 }
+
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
 
-/* Плавне з’явлення елементів */
 .fade-up-enter-active {
   transition: all 0.4s ease;
 }
+
 .fade-up-enter-from {
   opacity: 0;
   transform: translateY(10px);
 }
+
 .fade-up-enter-to {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* Кількість в кошику */
-.item-in-cart {
-  margin-top: 4px;
-  font-size: 16px;
-  font-weight: 700;
-  color: #ff6600; /* можна змінити під дизайн */
-}
+/* ------------------ KEYFRAMES ------------------ */
 
-
-/* Ключові кадри */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ------------------ АДАПТИВ ------------------ */
+
 @media (max-width: 768px) {
-  .menu-item {
-    /* flex-direction: column; */
+  .menu__item {
     align-items: flex-start;
   }
 
-  .price-row {
-    flex-direction: row;
+  .menu__prices {
     flex-wrap: wrap;
-  }
-
-  .price-icon {
-    width: 24px;
-    height: 24px;
   }
 }

@@ -4,7 +4,7 @@
     <MainPrices v-if="!basketState" :categoriesProp="categories" :menuDataProp="menuData" :cartItemsProp="cartItems"
       @incrementBasketQuantityEmit="addToCart" @decrementBasketQuantityEmit="decrementBasketQuantity" />
     <!-- Кошик  -->
-    <MainBasket v-else :cartItems="cartItems" @incrementBasketQuantityEmit="incrementBasketQuantity"
+    <MainBasket v-else :cartItems="cartItems" @incrementBasketQuantityEmit="addToCart"
       @decrementBasketQuantityEmit="decrementBasketQuantity" @clearBasketEmit="clearBasket" />
   </div>
 </template>
@@ -41,26 +41,22 @@ function addToCart(item) {
   const existingItem = cartItems.value.find(i => i.name === item.name);
 
   if (existingItem) {
-    incrementBasketQuantity(item);
+    existingItem.quantity++
   } else {
+
     cartItems.value.push({
       ...item,
       quantity: 1,
       token: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
     });
 
-    console.log({
-      ...item,
-      quantity: 1,
-      token: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`
-    })
+    notyf.open({
+      type: 'add',
+      message: `Додано ${item.name}`,
+    });
   }
-}
 
-// increment basket item
-function incrementBasketQuantity(item) {
-  const target = cartItems.value.find(i => i.name === item.name);
-  if (target) target.quantity++;
+  localStorage.setItem('basket-items', JSON.stringify(cartItems.value));
 }
 
 // decrement basket item
@@ -68,12 +64,14 @@ function decrementBasketQuantity(item) {
   const target = cartItems.value.find(i => i.name === item.name);
 
   if (target) {
-     target.quantity--;
+    target.quantity--;
 
     if (target.quantity <= 0) {
       removeFromCart(item);
     }
   }
+
+  localStorage.setItem('basket-items', JSON.stringify(cartItems.value));
 }
 
 // remove item from basket
@@ -89,6 +87,7 @@ function removeFromCart(item) {
 // clear basket
 function clearBasket() {
   cartItems.value = [];
+  localStorage.setItem('basket-items', JSON.stringify(cartItems.value));
 }
 
 // watch basket
@@ -99,18 +98,25 @@ watch(
   }
 );
 
-watch(
-  () => props.basketStateProp,
-  (newVal) => {
-    basketState.value = newVal;
-  }
-);
-
-// onMounted
+// onMounted get menu
 onMounted(async function () {
-  // отримуємо меню
   const menu = await getPrices(BASE_URL);
   menuData.value = menu;
   categories.value = Object.keys(menuData.value);
 })
+
+//onMounted local storage
+onMounted(() => {
+  const savedBasketItems = localStorage.getItem('basket-items');
+
+  if (savedBasketItems) {
+    try {
+      const parsedBasketItems = JSON.parse(savedBasketItems);
+      if (parsedBasketItems.length) cartItems.value = parsedBasketItems;
+
+    } catch (e) {
+      return;
+    };
+  }
+});
 </script>

@@ -1,60 +1,89 @@
 <template>
-  <div class="basket-section" v-if="cartItems?.length">
-    <!-- ПІДСУМОК ЕКОНОМІЇ -->
-    <div class="basket-summary">
-      <p>
-        <p> Ціна в закладі  <span class="saving mc">{{ totalBasketPrice }} ₴ </span></p>На 
-        <span class="saving glovo">{{ totalGlovoSaving }} ₴</span> дорожче у Glovo та на
-        <span class="saving bolt">{{ totalBoltSaving }} ₴</span> дорожче у Bolt
+  <div class="basket" v-if="cartItems?.length">
+
+    <!-- ПІДСУМОК -->
+    <div class="basket__summary">
+      <p class="basket__summary-text">
+        <span>Ціна в закладі:</span>
+        <span class="basket__summary-value basket__summary-value--mc">{{ totalBasketPrice }} ₴</span>
+        На
+        <span class="basket__summary-value basket__summary-value--glovo">{{ totalGlovoSaving }} ₴</span>
+        дорожче у Glovo та на
+        <span class="basket__summary-value basket__summary-value--bolt">{{ totalBoltSaving }} ₴</span>
+        дорожче у Bolt
       </p>
     </div>
 
     <!-- СПИСОК ПОЗИЦІЙ -->
-    <div class="basket-list">
+    <div class="basket__list">
       <transition-group name="fade-up" tag="div">
-        <div v-for="item in cartItems" :key="item.id" class="basket-item">
-          <!-- ІНФО ПРО ТОВАР -->
-          <div class="basket-info">
-            <p class="basket-name">{{ item.name }}</p>
+        <div
+          v-for="item in cartItems"
+          :key="item.id"
+          class="basket__item"
+        >
 
-            <div class="basket-prices">
-              <p v-if="item.price_original !== null && item.price_original > 0">
-                <img src="@/images/mcdonalds.avif" class="price-icon">
+          <!-- ІНФО ПРО ТОВАР -->
+          <div class="basket__info">
+            <p class="basket__name">{{ item.name }}</p>
+
+            <div class="basket__prices">
+
+              <p
+                v-if="item.price_original !== null && item.price_original > 0"
+                class="basket__price"
+              >
+                <img src="@/images/mcdonalds.avif" class="basket__price-icon" />
                 {{ item.price_original }} ₴
               </p>
 
-              <p v-if="item.price_glovo !== null && item.price_glovo > 0">
-                <img src="@/images/glovo.png" class="price-icon">
+              <p
+                v-if="item.price_glovo !== null && item.price_glovo > 0"
+                class="basket__price"
+              >
+                <img src="@/images/glovo.png" class="basket__price-icon" />
                 {{ item.price_glovo }} ₴
-                <span class="diff" :class="{ positive: item.price_glovo - item.price_original > 0 }">
+                <span
+                  class="basket__diff"
+                  :class="{ 'basket__diff--negative': item.price_glovo - item.price_original > 0 }"
+                >
                   ({{ (item.price_glovo - item.price_original) * item.quantity }} ₴)
                 </span>
               </p>
 
-              <p v-if="item.price_bolt !== null && item.price_bolt > 0">
-                <img src="@/images/bolt.png" class="price-icon">
+              <p
+                v-if="item.price_bolt !== null && item.price_bolt > 0"
+                class="basket__price"
+              >
+                <img src="@/images/bolt.png" class="basket__price-icon" />
                 {{ item.price_bolt }} ₴
-                <span class="diff" :class="{ positive: item.price_bolt - item.price_original > 0 }">
+                <span
+                  class="basket__diff"
+                  :class="{ 'basket__diff--negative': item.price_bolt - item.price_original > 0 }"
+                >
                   ({{ (item.price_bolt - item.price_original) * item.quantity }} ₴)
                 </span>
               </p>
+
             </div>
-
           </div>
 
-          <!-- КНОПКИ КІЛЬКОСТІ ТА ВИДАЛЕННЯ -->
-          <div class="quantity-controls">
-            <button @click="decrementItem(item)">−</button>
-            <span>{{ item.quantity }}</span>
-            <button @click="$emit('incrementBasketQuantityEmit', item)">+</button>
+          <!-- КЕРУВАННЯ КІЛЬКІСТЮ -->
+          <div class="basket__controls">
+            <button class="basket__btn" @click="decrementItem(item)">−</button>
+            <span class="basket__quantity">{{ item.quantity }}</span>
+            <button class="basket__btn" @click="$emit('incrementBasketQuantityEmit', item)">+</button>
           </div>
+
         </div>
       </transition-group>
     </div>
 
-    <!-- КНОПКА ОЧИСТКИ ВСЬОГО КОШИКА -->
-    <div class="basket-clear" v-if="cartItems?.length > 3">
-      <span class="clear-btn" @click="$emit('clearBasketEmit')">Очистити кошик</span>
+    <!-- КНОПКА ОЧИСТКИ -->
+    <div class="basket__clear" v-if="cartItems?.length > 3" @click="$emit('clearBasketEmit')">
+      <span class="basket__clear-btn">
+        Очистити кошик
+      </span>
     </div>
 
   </div>

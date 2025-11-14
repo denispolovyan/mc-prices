@@ -1,48 +1,93 @@
 <template>
-  <div class="menu-section">
+  <div class="menu">
     <transition-group name="fade" tag="div">
-      <div v-for="category in categories" :key="category" class="category-item">
-        <div class="category-header" @click="toggleCategory(category)">
-          <h2>{{ category }}</h2>
-          <span class="arrow" :class="{ open: openCategory === category }">▼</span>
+      <div
+        v-for="category in categories"
+        :key="category"
+        class="menu__category"
+      >
+        <!-- Заголовок категорії -->
+        <div
+          class="menu__category-header"
+          @click="toggleCategory(category)"
+        >
+          <h2 class="menu__category-title">{{ category }}</h2>
+
+          <span
+            class="menu__category-arrow"
+            :class="{ 'menu__category-arrow--open': openCategory === category }"
+          >
+            ▼
+          </span>
         </div>
 
+        <!-- Позиції категорії -->
         <transition name="expand">
-          <div v-if="openCategory === category" class="menu-items">
+          <div
+            v-if="openCategory === category"
+            class="menu__items"
+          >
             <transition-group name="fade-up" tag="div">
-              <div v-for="item in filteredItems(category)" :key="item.id" class="menu-item">
-                <div class="menu-text">
-                  <p class="item-name">{{ item.name }}</p>
+              <div
+                v-for="item in filteredItems(category)"
+                :key="item.id"
+                class="menu__item"
+              >
+                <div class="menu__item-info">
+                  <p class="menu__item-name">{{ item.name }}</p>
 
-                  <div class="price-row">
-                    <p class="item-price">
-                      <img src="@/images/mcdonalds.avif" class="price-icon"> {{ item.price_original }} ₴
-                    </p>
+                  <!-- блок з цінами -->
+                  <div class="menu__price-group">
+                    <div class="menu__prices">
+                      <p class="menu__price">
+                        <img src="@/images/mcdonalds.avif" class="menu__price-icon" />
+                        {{ item.price_original }} ₴
+                      </p>
 
-                    <p v-if="item.price_glovo !== null" class="item-price">
-                      <img src="@/images/glovo.png" class="price-icon"> {{ item.price_glovo }} ₴
-                    </p>
+                      <p
+                        v-if="item.price_glovo !== null"
+                        class="menu__price"
+                      >
+                        <img src="@/images/glovo.png" class="menu__price-icon" />
+                        {{ item.price_glovo }} ₴
+                      </p>
 
-                    <p v-if="item.price_bolt !== null" class="item-price">
-                      <img src="@/images/bolt.png" class="price-icon"> {{ item.price_bolt }} ₴
-                    </p>
+                      <p
+                        v-if="item.price_bolt !== null"
+                        class="menu__price"
+                      >
+                        <img src="@/images/bolt.png" class="menu__price-icon" />
+                        {{ item.price_bolt }} ₴
+                      </p>
+                    </div>
 
-                    <!-- кількість в кошику -->
-                    <p v-if="getItemQuantity(item) > 0" class="item-in-cart">
+                    <!-- кількість у кошику -->
+                    <p
+                      v-if="getItemQuantity(item) > 0"
+                      class="menu__item-in-cart"
+                    >
                       Додано в кошик: {{ getItemQuantity(item) }}
                     </p>
                   </div>
-
                 </div>
 
-                <!-- кнопка + - -->
-                <div class="menu-button">
-                  <!-- кнопка + -->
-                  <button class="add-btn" @click.stop="addItem(item)">+</button>
-                  <!-- кнопка - -->
-                  <button v-if="getItemQuantity(item) > 0" class="remove-btn" @click.stop="removeItem(item)">-</button>
-                </div>
+                <!-- кнопки + і - -->
+                <div class="menu__buttons">
+                  <button
+                    class="menu__btn menu__btn--add"
+                    @click.stop="addItem(item)"
+                  >
+                    +
+                  </button>
 
+                  <button
+                    v-if="getItemQuantity(item) > 0"
+                    class="menu__btn menu__btn--remove"
+                    @click.stop="removeItem(item)"
+                  >
+                    -
+                  </button>
+                </div>
               </div>
             </transition-group>
           </div>
@@ -52,12 +97,10 @@
   </div>
 </template>
 
+
 <script setup>
 //base
 import { ref, watch } from 'vue'
-
-// notyf
-import { notyf } from "@/constants.js";
 
 // emits
 const emit = defineEmits(['incrementBasketQuantityEmit', 'decrementBasketQuantityEmit'])
@@ -99,11 +142,6 @@ function filteredItems(categoryName) {
 // add item to cart
 function addItem(item) {
   emit('incrementBasketQuantityEmit', item);
-
-  notyf.open({
-    type: 'add',
-    message: `${item.name} додано`,
-  });
 }
 
 // remoce item from cart
@@ -117,8 +155,7 @@ function getItemQuantity(item) {
   return cartItem ? cartItem.quantity : 0;
 }
 
-
-// watch
+// watch categories
 watch(
   () => props.categoriesProp,
   (newVal) => {
@@ -127,6 +164,7 @@ watch(
   { immediate: true }
 );
 
+// watch menu
 watch(
   () => props.menuDataProp,
   (newVal) => {
@@ -135,15 +173,14 @@ watch(
   { immediate: true }
 );
 
+// watch basket
 watch(
   () => props.cartItemsProp,
   (newVal) => {
     cartItems.value = newVal;
-    console.log(cartItems.value);
   },
   { immediate: true }
 );
-
 </script>
 
 <style scoped>

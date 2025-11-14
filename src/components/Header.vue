@@ -1,7 +1,7 @@
 <template>
   <header class="header">
     <div class="header__container">
-      <h1 class="header__logo" @click="closeBasket">Мак Prices</h1>
+      <h1 class="header__logo" @click="closeBasket">Mc Prices</h1>
 
       <!-- Кошик з анімацією -->
       <div 
@@ -41,7 +41,6 @@ function closeBasket(){
   if(basketState.value) handleBasket();
 }
 </script>
-
 
 <style scoped>
 @import '@/css/header/header.css';

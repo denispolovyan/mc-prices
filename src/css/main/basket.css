@@ -1,194 +1,170 @@
 /* =============================
-   ОСНОВНИЙ БЛОК КОШИКА
+   BASKET — кореневий блок
    ============================= */
-.basket-section {
+.basket {
   flex: 1;
   background: #343333;
-  font-size: 16px;
-  font-weight: 700;
   max-width: 1230px;
   margin: 0 auto;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  font-size: 16px;
+  font-weight: 700;
   animation: fadeIn 0.3s ease forwards;
 }
 
 /* =============================
-   ПІДСУМОК ЕКОНОМІЇ
+   SUMMARY — підсумок
    ============================= */
-.basket-summary {
-  background-color: #DA291C;
+.basket__summary {
+  background: #DA291C;
   color: #fff;
-  font-weight: 700;
-  font-size: 1rem;
+  padding: 10px;
   text-align: center;
-  padding: 7px 10px;
-  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
   animation: slideUp 0.4s ease forwards;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-.saving {
+.basket__summary-text {
+  font-size: 1rem;
+}
+
+.basket__summary-value {
   font-weight: 800;
   font-size: 1.3rem;
-  padding: 0 5px;
+  padding: 0 4px;
 }
 
-.saving.glovo { color: #f1c40f; }
-.saving.bolt { color: #2ecc71; }
-.saving.mc { color: #f79b11; }
+.basket__summary-value--glovo {
+  color: #f1c40f;
+}
 
+.basket__summary-value--bolt {
+  color: #2ecc71;
+}
+
+.basket__summary-value--mc {
+  color: #f79b11;
+}
 
 /* =============================
-   СПИСОК ПОЗИЦІЙ
+   LIST
    ============================= */
-.basket-list {
+.basket__list {
   display: flex;
   flex-direction: column;
 }
 
-.basket-item {
+.basket__item {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background-color: #fffaf3;
+  background: #fffaf3;
   padding: 12px 15px;
   border-bottom: 1px solid #DA291C;
   transition: transform 0.2s ease;
 }
 
-.basket-item:hover {
-  transform: translateY(-2px);
-}
-
-/* ІНФО ПРО ТОВАР */
-.basket-info {
+/* =============================
+   INFO
+   ============================= */
+.basket__info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
-.basket-name {
+.basket__name {
   color: #C1272D;
 }
 
-.basket-prices {
+.basket__prices {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
 }
 
-.basket-prices p {
+.basket__price {
   display: flex;
   align-items: center;
   gap: 8px;
   font-weight: 800;
 }
 
-.price-icon {
+.basket__price-icon {
   width: 24px;
   height: 24px;
 }
 
-/* РІЗНИЦЯ У ЦІНІ */
-.diff {
+.basket__diff {
   font-size: 0.9rem;
   color: #007a00;
 }
 
-.diff.positive {
+.basket__diff--negative {
   color: #DA291C;
 }
 
 /* =============================
-   КНОПКИ КІЛЬКОСТІ
+   CONTROLS
    ============================= */
-.quantity-controls {
+.basket__controls {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.quantity-controls button {
+.basket__btn {
   background: #da291c;
-  color: white;
+  color: #fff;
   border: none;
-  padding: 4px 10px;
-  border-radius: 4px;
+  padding: 5px 11px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 18px;
   transition: background 0.2s ease;
 }
 
-.quantity-controls button:hover {
+.basket__btn:hover {
   background: #e37616;
 }
 
-.quantity-controls span {
-  font-weight: bold;
+.basket__quantity {
+  font-weight: 800;
   font-size: 18px;
   color: #222;
 }
 
-/* КНОПКА ВИДАЛЕННЯ */
-.remove-btn {
-  background: #7a1a1a;
-  font-size: 16px;
-  padding: 5px 10px;
-}
-
 /* =============================
-   КНОПКА ОЧИСТКИ ВСЬОГО
+   CLEAR ALL
    ============================= */
-.clear-all {
-  text-align: center;
-  margin: 15px 0;
-}
-
-.clear-btn {
-  background: #C1272D;
+.basket__clear {
+  background: #DA291C;
   color: #fff;
-  border: none;
-  padding: 10px 20px;
-  font-weight: bold;
+  padding: 17px 10px;
+  text-align: center;
+  animation: slideUp 0.4s ease forwards;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  transition: background 0.3s ease;
-  border-radius: 4px;
 }
 
-.clear-btn:hover {
-  background: #e37616;
+.basket__clear-btn {
+  cursor: pointer;
+  font-weight: 800;
 }
 
 /* =============================
-   ПОРОЖНІЙ КОШИК
+   EMPTY
    ============================= */
 .basket-empty {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
 }
 
 .basket-empty img {
   width: 30%;
-  margin-top: 30px;
 }
 
 /* =============================
-   Очистити КОШИК
-   ============================= */
-
-.basket-clear{
-  background-color: #DA291C;
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.2rem;
-  text-align: center;
-  padding: 20px 10px;
-  box-shadow: 0 0px 2px rgba(0, 0, 0, 0.2);
-  animation: slideUp 0.4s ease forwards;
-}
-
-/* =============================
-   АНІМАЦІЇ
+   Анімації
    ============================= */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

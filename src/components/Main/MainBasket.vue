@@ -17,11 +17,7 @@
     <!-- СПИСОК ПОЗИЦІЙ -->
     <div class="basket__list">
       <transition-group name="fade-up" tag="div">
-        <div
-          v-for="item in cartItems"
-          :key="item.id"
-          class="basket__item"
-        >
+        <div v-for="item in cartItems" :key="item.id" class="basket__item">
 
           <!-- ІНФО ПРО ТОВАР -->
           <div class="basket__info">
@@ -29,38 +25,25 @@
 
             <div class="basket__prices">
 
-              <p
-                v-if="item.price_original !== null && item.price_original > 0"
-                class="basket__price"
-              >
+              <p v-if="item.price_original !== null && item.price_original > 0" class="basket__price">
                 <img src="@/images/mcdonalds.avif" class="basket__price-icon" />
                 {{ item.price_original }} ₴
               </p>
 
-              <p
-                v-if="item.price_glovo !== null && item.price_glovo > 0"
-                class="basket__price"
-              >
+              <p v-if="item.price_glovo !== null && item.price_glovo > 0" class="basket__price">
                 <img src="@/images/glovo.png" class="basket__price-icon" />
                 {{ item.price_glovo }} ₴
-                <span
-                  class="basket__diff"
-                  :class="{ 'basket__diff--negative': item.price_glovo - item.price_original > 0 }"
-                >
+                <span class="basket__diff"
+                  :class="{ 'basket__diff--negative': item.price_glovo - item.price_original > 0 }">
                   ({{ (item.price_glovo - item.price_original) * item.quantity }} ₴)
                 </span>
               </p>
 
-              <p
-                v-if="item.price_bolt !== null && item.price_bolt > 0"
-                class="basket__price"
-              >
+              <p v-if="item.price_bolt !== null && item.price_bolt > 0" class="basket__price">
                 <img src="@/images/bolt.png" class="basket__price-icon" />
                 {{ item.price_bolt }} ₴
-                <span
-                  class="basket__diff"
-                  :class="{ 'basket__diff--negative': item.price_bolt - item.price_original > 0 }"
-                >
+                <span class="basket__diff"
+                  :class="{ 'basket__diff--negative': item.price_bolt - item.price_original > 0 }">
                   ({{ (item.price_bolt - item.price_original) * item.quantity }} ₴)
                 </span>
               </p>
@@ -69,10 +52,15 @@
           </div>
 
           <!-- КЕРУВАННЯ КІЛЬКІСТЮ -->
-          <div class="basket__controls">
-            <button class="basket__btn" @click="decrementItem(item)">−</button>
-            <span class="basket__quantity">{{ item.quantity }}</span>
-            <button class="basket__btn" @click="$emit('incrementBasketQuantityEmit', item)">+</button>
+          <div class="basket__right">
+            <div class="basket__images">
+              <img v-if="item.urlToImg" :src="item.urlToImg" class="basket__img" />
+            </div>
+            <div class="basket__controls">
+              <button class="basket__btn" @click="decrementItem(item)">−</button>
+              <p><span class="basket__quantity">{{ item.quantity }}</span></p>
+              <button class="basket__btn" @click="$emit('incrementBasketQuantityEmit', item)">+</button>
+            </div>
           </div>
 
         </div>
@@ -109,7 +97,7 @@ const emit = defineEmits([
 
 // не дозволяємо кількість < 0, а якщо 0 — видаляємо
 function decrementItem(item) {
-    emit('decrementBasketQuantityEmit', item)
+  emit('decrementBasketQuantityEmit', item)
 }
 
 // підрахунок сумарної різниці цін
@@ -131,7 +119,7 @@ const totalBoltSaving = computed(() =>
   }, 0)
 )
 
-const totalBasketPrice = computed(() => 
+const totalBasketPrice = computed(() =>
   props.cartItems.reduce((acc, item) => acc + (item.price_original || 0) * item.quantity, 0)
 )
 

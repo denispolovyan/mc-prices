@@ -70,8 +70,6 @@
   </div>
 </template>
 
-
-
 <script setup>
 //base
 import { ref, watch } from 'vue'

@@ -149,9 +149,10 @@
 
 /* картинка справа */
 .menu__item-right-img {
-  width: 120px;
-  height: 100%;
+  width: 104px;
+  height: 60px;
   object-fit: contain;
+  background: #fff;
 }
 
 /* ------------------ КІЛЬКІСТЬ У КОШИКУ ------------------ */

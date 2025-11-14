@@ -117,7 +117,7 @@
   background: #da291c;
   color: #fff;
   border: none;
-  padding: 5px 11px;
+  padding: 0px 10px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 18px;
@@ -132,6 +132,29 @@
   font-weight: 800;
   font-size: 18px;
   color: #222;
+}
+
+/* =============================
+   IMG
+   ============================= */
+.basket__right{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+}
+
+.basket__controls{
+  display: flex;
+  justify-content: space-around;
+}
+
+/* =============================
+   RIGHT CONTAINER
+   ============================= */
+.basket__img{
+  width: 100px;
+  background: #fff;
 }
 
 /* =============================

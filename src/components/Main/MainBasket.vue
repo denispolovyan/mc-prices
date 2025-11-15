@@ -6,11 +6,15 @@
       <p class="basket__summary-text">
         <span>Ціна в закладі:</span>
         <span class="basket__summary-value basket__summary-value--mc">{{ totalBasketPrice }} ₴</span>
-        На
-        <span class="basket__summary-value basket__summary-value--glovo">{{ totalGlovoSaving }} ₴</span>
-        дорожче у Glovo та на
-        <span class="basket__summary-value basket__summary-value--bolt">{{ totalBoltSaving }} ₴</span>
-        дорожче у Bolt
+        <p> <span v-if="totalGlovoSaving > 0">На
+          <span class="basket__summary-value basket__summary-value--glovo">{{ totalGlovoSaving }} ₴</span>
+          дорожче у Glovo
+        </span>
+        <span v-if="totalBoltSaving > 0">та на
+          <span class="basket__summary-value basket__summary-value--bolt">{{ totalBoltSaving }} ₴</span>
+          дорожче у Bolt
+        </span>
+      </p>
       </p>
     </div>
 

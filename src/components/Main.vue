@@ -42,6 +42,13 @@ function addToCart(item) {
 
   if (existingItem) {
     existingItem.quantity++
+
+    if (item.name.includes("МЕНЮ")) {
+      notyf.open({
+        type: 'add',
+        message: `Додано ${item.name}`,
+      });
+    }
   } else {
 
     cartItems.value.push({

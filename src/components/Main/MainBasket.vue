@@ -31,12 +31,12 @@
 
               <p v-if="item.price_original !== null && item.price_original > 0" class="basket__price">
                 <img src="@/images/mcdonalds.avif" class="basket__price-icon" />
-                {{ item.price_original }} ₴
+                {{ item.price_original * item.quantity }} ₴
               </p>
 
               <p v-if="item.price_glovo !== null && item.price_glovo > 0" class="basket__price">
                 <img src="@/images/glovo.png" class="basket__price-icon" />
-                {{ item.price_glovo }} ₴
+                {{ item.price_glovo * item.quantity }} ₴
                 <span class="basket__diff"
                   :class="{ 'basket__diff--negative': item.price_glovo - item.price_original > 0 }">
                   ({{ (item.price_glovo - item.price_original) * item.quantity }} ₴)
@@ -45,7 +45,7 @@
 
               <p v-if="item.price_bolt !== null && item.price_bolt > 0" class="basket__price">
                 <img src="@/images/bolt.png" class="basket__price-icon" />
-                {{ item.price_bolt }} ₴
+                {{ item.price_bolt * item.quantity }} ₴
                 <span class="basket__diff"
                   :class="{ 'basket__diff--negative': item.price_bolt - item.price_original > 0 }">
                   ({{ (item.price_bolt - item.price_original) * item.quantity }} ₴)

@@ -43,14 +43,13 @@
 
                   <!-- Опції МАКМЕНЮ -->
                   <div v-if="category === 'МАКМЕНЮ'" class="menu__addons">
-                    <span
-                      v-for="opt in makOptions"
-                      :key="opt.key"
-                      @click="toggleOption(item, opt.key)"
-                      :class="['addon-btn', { 'addon-btn--active': selectedOptions[item.id]?.has(opt.key) }]"
-                    >
-                      {{ opt.label }} ({{opt.addOriginal }}/{{opt.addServices}})
-                  </span>
+                    <span v-for="opt in makOptions" :key="opt.key" @click="toggleOption(item, opt.key)" :class="[
+                      'addon-btn',
+                      { 'addon-btn--active': selectedOptions[item.id]?.keys?.has(opt.key) }
+                    ]">
+                      {{ opt.label }} ({{ opt.addOriginal }}/{{ opt.addServices }})
+                    </span>
+
                   </div>
 
                 </div>
@@ -63,7 +62,8 @@
 
                   <!-- кнопки + і - -->
                   <div class="buttons__container">
-                    <button v-if="getItemQuantity(item) > 0  && category !== 'МАКМЕНЮ'" class="menu__btn menu__btn--remove" @click.stop="removeItem(item)">
+                    <button v-if="getItemQuantity(item) > 0 && category !== 'МАКМЕНЮ'"
+                      class="menu__btn menu__btn--remove" @click.stop="removeItem(item)">
                       -
                     </button>
                     <button class="menu__btn menu__btn--add" @click.stop="addItem(item)">
@@ -81,58 +81,106 @@
 </template>
 
 <script setup>
-// base
 import { ref, watch } from 'vue'
 
-// emits
+/* emits */
 const emit = defineEmits(['incrementBasketQuantityEmit', 'decrementBasketQuantityEmit'])
 
-// props
+/* props */
 const props = defineProps({
-  categoriesProp: { type: Object, required: true },
-  menuDataProp: { type: Object, required: true },
-  cartItemsProp: { type: Object, required: true }
-});
+  categoriesProp: Object,
+  menuDataProp: Object,
+  cartItemsProp: Object
+})
 
-// consts
+/* state */
 const categories = ref(props.categoriesProp)
 const menuData = ref(props.menuDataProp)
 const cartItems = ref(props.cartItemsProp)
 const openCategory = ref(null)
 const selectedOptions = ref({})
 
+/* меню опції */
 const makOptions = [
   { key: 'dips', label: 'Діпи', addOriginal: 15, addServices: 15 },
+  { key: 'potato', label: 'Фрі з беконом', addOriginal: 25, addServices: 29 },
   { key: 'coffee', label: 'Кава', addOriginal: 10, addServices: 10 },
+  { key: 'juice', label: 'Cік', addOriginal: 20, addServices: 29 },
   { key: 'salad', label: 'Салат', addOriginal: 37, addServices: 42 },
-  // { key: 'potato', label: 'Фрі з беконом', addOriginal: 25, addServices: 29 },
-  // { key: 'juice', label: 'Апельсиновий сік', addOriginal: 20, addServices: 29 },
-
 ]
 
-// functions
+/* порядок для рядка */
+const PRIORITY = ["dips", "potato", "coffee", "juice", "salad"]
+
+/* групи — тільки одна опція */
+const GROUP_A = ["dips", "potato", "salad"]
+const GROUP_B = ["coffee", "juice"]
+
+/* toggle категорії */
 function toggleCategory(name) {
   openCategory.value = openCategory.value === name ? null : name
 }
 
+/* toggle опції МакМеню */
 function toggleOption(item, key) {
-  if (!selectedOptions.value[item.id]) selectedOptions.value[item.id] = new Set()
-  if (selectedOptions.value[item.id].has(key)) {
-    selectedOptions.value[item.id].delete(key)
-  } else {
-    selectedOptions.value[item.id].add(key)
+  if (!selectedOptions.value[item.id]) {
+    selectedOptions.value[item.id] = { keys: new Set(), sumOriginal: 0, sumServices: 0 }
   }
+
+  const sel = selectedOptions.value[item.id]
+  const opt = makOptions.find(o => o.key === key)
+  if (!opt) return
+
+  // вимикаємо інші варіанти в групі A
+  if (GROUP_A.includes(key)) {
+    for (const k of [...sel.keys]) {
+      if (GROUP_A.includes(k) && k !== key) {
+        const rm = makOptions.find(o => o.key === k)
+        sel.keys.delete(k)
+        sel.sumOriginal -= rm.addOriginal
+        sel.sumServices -= rm.addServices
+      }
+    }
+  }
+
+  // вимикаємо інші в групі B
+  if (GROUP_B.includes(key)) {
+    for (const k of [...sel.keys]) {
+      if (GROUP_B.includes(k) && k !== key) {
+        const rm = makOptions.find(o => o.key === k)
+        sel.keys.delete(k)
+        sel.sumOriginal -= rm.addOriginal
+        sel.sumServices -= rm.addServices
+      }
+    }
+  }
+
+  // toggle натиснутого
+  if (sel.keys.has(key)) {
+    sel.keys.delete(key)
+    sel.sumOriginal -= opt.addOriginal
+    sel.sumServices -= opt.addServices
+  } else {
+    sel.keys.add(key)
+    sel.sumOriginal += opt.addOriginal
+    sel.sumServices += opt.addServices
+  }
+
+  // сортуємо ключі
+  sel.keys = new Set([...sel.keys].sort(
+    (a, b) => PRIORITY.indexOf(a) - PRIORITY.indexOf(b)
+  ))
 }
 
+/* фільтрація позицій */
 function filteredItems(categoryName) {
   return menuData.value[categoryName] || []
 }
 
-// Перерахунок ціни і назви на етапі додавання в кошик
+/* застосовуємо модифікатори */
 function applyFinalItemData(item) {
-  const opts = selectedOptions.value[item.id] || new Set()
+  const entry = selectedOptions.value[item.id]
 
-  // Зберігаємо базові значення, якщо ще не збережено
   if (item._baseOriginal == null) {
     item._baseOriginal = item.price_original
     item._baseGlovo = item.price_glovo
@@ -140,61 +188,79 @@ function applyFinalItemData(item) {
     item._baseName = item.name
   }
 
-  // Відновлюємо базові значення
-  item.price_original = item._baseOriginal
-  item.price_glovo = item._baseGlovo
-  item.price_bolt = item._baseBolt
-  item.name = item._baseName
+  let finalOriginal = item._baseOriginal
+  let finalGlovo = item._baseGlovo
+  let finalBolt = item._baseBolt
+  let finalName = item._baseName
 
-  const addonsNames = []
+  if (entry) {
+    finalOriginal += entry.sumOriginal
+    if (finalGlovo !== null) finalGlovo += entry.sumServices
+    if (finalBolt !== null) finalBolt += entry.sumServices
 
-  makOptions.forEach(opt => {
-    if (opts.has(opt.key)) {
-      item.price_original += opt.addOriginal
-      if (item.price_glovo !== null) item.price_glovo += opt.addServices
-      if (item.price_bolt !== null) item.price_bolt += opt.addServices
-      addonsNames.push(opt.label.toLowerCase())
+    if (entry.keys.size > 0) {
+      const labels = [...entry.keys]
+        .map(k => makOptions.find(o => o.key === k)?.label.toLowerCase())
+        .filter(Boolean)
+
+      if (labels.length) finalName = `${finalName} (${labels.join(', ')})`
     }
-  })
-
-  if (addonsNames.length > 0) {
-    item.name = `${item._baseName} (${addonsNames.join(', ')})`
   }
 
-  return [item._baseName, item._baseOriginal, item._baseGlovo, item._baseBolt]
+  return [finalName, finalOriginal, finalGlovo, finalBolt]
 }
 
-// Додавання в кошик
+/* додавання до кошика */
 function addItem(item) {
-  const [baseName, baseOriginal, baseGlovo, baseBolt] = applyFinalItemData(item);
-  selectedOptions.value[item.id] = new Set() // скидаємо вибір після додавання
-  emit('incrementBasketQuantityEmit', item)
+  const [finalName, finalOriginal, finalGlovo, finalBolt] =
+    applyFinalItemData(item)
 
-  selectedOptions.value = {};
-  item.name = baseName;
-  item.price_glovo = baseGlovo;
-  item.price_bolt = baseBolt;
-  item.price_original = baseOriginal;
+  emit('incrementBasketQuantityEmit', {
+    ...item,
+    name: finalName,
+    price_original: finalOriginal,
+    price_glovo: finalGlovo,
+    price_bolt: finalBolt
+  })
+
+  selectedOptions.value[item.id] = { keys: new Set(), sumOriginal: 0, sumServices: 0 }
 }
 
-// Видалення з кошика
+/* рядок модифікаторів */
+function getSelectedAddonsLabel(item) {
+  const sel = selectedOptions.value[item.id]
+  if (!sel || sel.keys.size === 0) return ""
+
+  const sorted = [...sel.keys].sort(
+    (a, b) => PRIORITY.indexOf(a) - PRIORITY.indexOf(b)
+  )
+
+  const labels = sorted.map(k => {
+    const opt = makOptions.find(o => o.key === k)
+    return opt ? opt.label.toLowerCase() : ""
+  })
+
+  return labels.length ? ` (${labels.join(", ")})` : ""
+}
+
+/* видалити з кошика */
 function removeItem(item) {
   emit('decrementBasketQuantityEmit', item)
 }
 
-// Кількість у кошику
+/* кількість у кошику */
 function getItemQuantity(item) {
-  const cartItem = cartItems.value.find(ci => ci.name === item.name)
-  return cartItem ? cartItem.quantity : 0
+  const ci = cartItems.value.find(ci => ci.name === item.name)
+  return ci ? ci.quantity : 0
 }
 
-// ------------------------
-// Watchers
-// ------------------------
-watch(() => props.categoriesProp, (newVal) => { categories.value = newVal }, { immediate: true })
-watch(() => props.menuDataProp, (newVal) => { menuData.value = newVal }, { immediate: true })
-watch(() => props.cartItemsProp, (newVal) => { cartItems.value = newVal }, { immediate: true })
+/* слідкуємо за пропсами */
+watch(() => props.categoriesProp, v => categories.value = v)
+watch(() => props.menuDataProp, v => menuData.value = v)
+watch(() => props.cartItemsProp, v => cartItems.value = v)
 </script>
+
+
 
 <style scoped>
 @import "@/css/main/prices.css";

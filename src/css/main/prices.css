@@ -73,7 +73,7 @@
 
 /* ------------------ ТЕКСТ ------------------ */
 .menu__item-info {
-  max-width: 260px;
+  width: 290px;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -100,10 +100,11 @@
 }
 
 .menu__price {
-  flex: 0 0 30%;
+  flex: 0 0 70px;
   display: flex;
   align-items: center;
-  gap: 6px;
+  white-space: nowrap;
+  gap: 3px;
 }
 
 .menu__price-icon {
@@ -251,11 +252,6 @@
 }
 
 /* ------------------ АДАПТИВ ------------------ */
-@media (max-width: 768px) {
-  .menu__prices {
-    flex-wrap: wrap;
-  }
-}
 
 @media (max-width: 500px) {
 .menu__price-group {
@@ -273,7 +269,7 @@
 }
 
 .menu__item {
-  padding: 5px 10px;
+  padding: 5px;
 }
 }
 
@@ -289,13 +285,14 @@
 
 .addon-btn {
   display: flex;
-  flex: 1 1 30%;
+  flex: 1 1 33%;
   text-align: center;
   border: 1px solid #ccc;
   cursor: pointer;
   transition: 0.2s;
-  padding: 8px 0px;
+  padding: 8px 3px;
   justify-content: center;
+  white-space: nowrap;
 }
 
 .addon-btn--active {
